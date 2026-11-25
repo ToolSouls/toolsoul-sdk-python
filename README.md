@@ -11,13 +11,13 @@
 从官方仓库安装固定版本：
 
 ```sh
-python -m pip install "git+https://github.com/qilingAI/qiling-sdk-python.git@v0.5.4"
+python -m pip install "git+https://github.com/ToolSouls/toolsoul-sdk-python.git@v0.5.4"
 ```
 
 或者克隆源码后安装：
 
 ```sh
-git clone https://github.com/qilingAI/qiling-sdk-python.git
+git clone https://github.com/ToolSouls/toolsoul-sdk-python.git
 cd qiling-sdk-python
 python -m pip install .
 ```
@@ -318,7 +318,7 @@ MIT，见 [LICENSE](LICENSE)。
 本版保留软件登录、会话、套餐及去AI原文换行处理。普通JSON调用不新增第三方依赖；流式与multipart图片编辑可在Python3.10+安装可选桥接：
 
 ```sh
-python -m pip install "qiling-ai-sdk[openai] @ git+https://github.com/qilingAI/qiling-sdk-python.git@v0.5.4"
+python -m pip install "qiling-ai-sdk[openai] @ git+https://github.com/ToolSouls/toolsoul-sdk-python.git@v0.5.4"
 ```
 
 ```python

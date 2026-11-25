@@ -18,6 +18,6 @@ openai = ["openai==3.31.0; python_version >= '3.10'"]
 [project.urls]
 Homepage = "https://toolsoul.daniu7.cn"
 
-Repository = "https://github.com/qilingAI/qiling-sdk-python"
+Repository = "https://github.com/ToolSouls/toolsoul-sdk-python"
 Documentation = "https://867fas1f7s.apifox.cn/"
-Issues = "https://github.com/qilingAI/qiling-sdk-python/issues"
+Issues = "https://github.com/ToolSouls/toolsoul-sdk-python/issues"
