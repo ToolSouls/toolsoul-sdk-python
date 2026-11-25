@@ -357,6 +357,21 @@ print(client.model_call(video["id"]))
 
 视频支持HTTPS/Data URI参考图/视频/音频、first_frame/last_frame、ratio、generate_audio、return_last_frame；查询和取消继续使用model_call/cancel_video。成功读取data.video_url和所请求且上游返回的data.last_frame_url，计费在billing。不能直接当作官方OpenAI Videos API或Seedance官方任务路径使用。reference_seconds 及额度预估只用于费用估算，不预扣或占用余额，最后按上游真实用量结算；断流、用量缺失或未知结果只核对原任务，不新建请求重试。
 
+DeepSeek 网页搜索使用`POST /v1/tools/search`，API Key 客户端调用`client.search()`：
+
+```python
+result = client.search(
+    "DeepSeek 最新发布 site:deepseek.com",
+    count=5,
+    need_content=False,
+    idempotency_key="search-001",
+)
+for item in result["results"]:
+    print(item["title"], item["url"])
+```
+
+搜索只在上游成功且结果非空时按次计费，空结果和失败不收费。SDK 授权客户端使用`ai_search()`，费用进入当前软件授权的 AI 账单。
+
 最新动态模型契约：已确认平台根地址下的 `/api/v1/open/model-docs` 和 `/api/v1/public/developer-openapi.json`；静态参考见 [Apifox 索引](https://867fas1f7s.apifox.cn/llms.txt)。接入时先读该模型能力与Schema，不能靠别名推断权限。当前仅GitHub源码/Tag发布，不发布公共PyPI包。
 
 ## 0.5.1 更新

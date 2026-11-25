@@ -77,6 +77,27 @@ class OpenApiTests(unittest.TestCase):
         self.assertNotIn("reference_images", payloads[1])
         self.assertEqual(payloads[1]["response_format"], "url")
 
+    def test_search_uses_v1_bearer_and_preserves_deepseek_fields(self):
+        with patch.object(http, "urlopen", return_value=io.BytesIO(b'{"results":[]}')) as request:
+            result = self.client.search(
+                "DeepSeek site:example.com",
+                count=5,
+                ori_question="最新发布",
+                need_content=True,
+                request_id="search-1",
+                idempotency_key="search-1",
+            )
+        self.assertEqual(result, {"results": []})
+        req = request.call_args.args[0]
+        self.assertEqual(req.full_url, "https://api.example.test/v1/tools/search")
+        self.assertEqual(req.get_header("Authorization"), "Bearer user-key")
+        self.assertEqual(req.get_header("Idempotency-key"), "search-1")
+        payload = json.loads(req.data)
+        self.assertEqual(payload["model"], "deepseek-search")
+        self.assertEqual(payload["query"], "DeepSeek site:example.com")
+        self.assertEqual(payload["count"], 5)
+        self.assertTrue(payload["need_content"])
+
     def test_idempotency_header_is_preserved_and_stream_uses_official_sdk(self):
         with patch.object(http, "urlopen", side_effect=lambda *a, **k: io.BytesIO(b'{}')) as request:
             for _ in range(2):

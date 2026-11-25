@@ -59,6 +59,32 @@ class QilingOpenClient:
         """Submit text verbatim, preserving real line breaks and paragraph spacing."""
         return self._request("POST", "/remove-ai", {"text": text})
 
+    def search(
+        self,
+        query: str,
+        *,
+        model: str = "deepseek-search",
+        count: int = 10,
+        ori_question: str | None = None,
+        localization: str = "",
+        need_content: bool = False,
+        request_id: str | None = None,
+        idempotency_key: str | None = None,
+    ) -> dict[str, Any]:
+        """Search live web pages through the platform-billed DeepSeek Search API."""
+        payload = {
+            "model": model,
+            "query": query,
+            "count": count,
+            "localization": localization,
+            "need_content": need_content,
+        }
+        if ori_question is not None:
+            payload["ori_question"] = ori_question
+        if request_id is not None:
+            payload["request_id"] = request_id
+        return self._request("POST", "/tools/search", payload, model_api=True, idempotency_key=idempotency_key)
+
     def chat(
         self, messages: list[dict[str, Any]], *, model: str, request_id: str | None = None,
         max_tokens: int | None = None, temperature: float | None = None,

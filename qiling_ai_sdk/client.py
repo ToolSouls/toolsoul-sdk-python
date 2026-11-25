@@ -309,6 +309,30 @@ class QilingAiClient:
                 payload[name] = value
         return self._request("POST", "/api/v1/sdk/ai/video", payload)
 
+    def ai_search(
+        self,
+        query: str,
+        *,
+        request_id: str | None = None,
+        model: str = "deepseek-search",
+        count: int = 10,
+        ori_question: str | None = None,
+        localization: str = "",
+        need_content: bool = False,
+    ) -> dict[str, Any]:
+        payload = {
+            "app_key": self._ai_app_key(),
+            "request_id": request_id or str(uuid.uuid4()),
+            "model": model,
+            "query": query,
+            "count": count,
+            "localization": localization,
+            "need_content": need_content,
+        }
+        if ori_question is not None:
+            payload["ori_question"] = ori_question
+        return self._request("POST", "/api/v1/sdk/ai/search", payload)
+
     def ai_task(self, task_id: int) -> dict[str, Any]:
         return self._request("GET", f"/api/v1/sdk/ai/tasks/{int(task_id)}")
 
